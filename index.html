@@ -1,0 +1,2560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OZAI GAMING - Premium ML Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    
+    <style>
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            border-radius: 3px;
+        }
+        
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .glass-dark {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Gradient Backgrounds */
+        .gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .gradient-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .gradient-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .gradient-warning {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        
+        .gradient-danger {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        /* Animated Background */
+        .animated-bg {
+            background: linear-gradient(-45deg, #0f0f23, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Hover Effects */
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Neon Effects */
+        .neon-blue {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+        
+        .neon-purple {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+        
+        .neon-pink {
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+        }
+        
+        /* Text Glow */
+        .text-glow {
+            text-shadow: 0 0 20px currentColor;
+        }
+        
+        /* Loading Animation */
+        .loading-dots {
+            display: inline-block;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        /* Card Animations */
+        .card-enter {
+            animation: cardEnter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes cardEnter {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* Button Ripple Effect */
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-ripple::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn-ripple:active::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            .mobile-padding {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .mobile-hero {
+                font-size: 3rem !important;
+                line-height: 1.1;
+            }
+            
+            .mobile-card {
+                padding: 1rem !important;
+            }
+            
+            .mobile-modal {
+                margin: 0.5rem !important;
+                max-height: 95vh !important;
+            }
+            
+            .mobile-form {
+                padding: 1rem !important;
+            }
+            
+            .mobile-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            
+            .mobile-stats {
+                grid-template-columns: 1fr !important;
+                gap: 0.75rem !important;
+            }
+            
+            .mobile-contact {
+                grid-template-columns: 1fr !important;
+                gap: 0.5rem !important;
+            }
+            
+            .mobile-admin {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+            }
+            
+            .mobile-images {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.5rem !important;
+            }
+            
+            .mobile-nav {
+                padding: 0.5rem !important;
+            }
+            
+            .mobile-text {
+                font-size: 0.875rem !important;
+                line-height: 1.4;
+            }
+            
+            .mobile-btn {
+                padding: 0.75rem 1rem !important;
+                font-size: 0.875rem !important;
+            }
+        }
+        
+        /* Status Indicators */
+        .status-available {
+            background: linear-gradient(45deg, #10b981, #34d399);
+        }
+        
+        .status-sold {
+            background: linear-gradient(45deg, #ef4444, #f87171);
+        }
+        
+        /* Notification Styles */
+        .notification-enter {
+            animation: slideInRight 0.3s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Custom Input Styles */
+        .input-glow:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="animated-bg text-white min-h-screen">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 z-50 flex items-center justify-center animated-bg">
+        <div class="text-center">
+            <div class="w-20 h-20 border-4 border-blue-500/30 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+            <h2 class="text-2xl font-bold text-glow">OZAI GAMING</h2>
+            <p class="text-blue-300 loading-dots">Loading</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="glass-dark sticky top-0 z-40 border-b border-white/10">
+        <div class="container mx-auto mobile-padding px-6 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <div class="w-10 h-10 md:w-12 md:h-12 gradient-primary rounded-2xl flex items-center justify-center neon-blue">
+                        <i class="fas fa-gamepad text-white text-lg md:text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-lg md:text-2xl font-black mono text-glow">OZAI GAMING</h1>
+                        <p class="text-xs text-blue-300 font-medium hidden sm:block">Premium ML Hub</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center space-x-4 xl:space-x-8">
+                    <button onclick="showSection('home')" class="nav-btn group flex items-center space-x-2 px-3 xl:px-4 py-2 rounded-xl transition-all duration-300 hover:bg-white/10">
+                        <i class="fas fa-home text-lg group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium text-sm xl:text-base">Home</span>
+                    </button>
+                    <button onclick="showSection('accounts')" class="nav-btn group flex items-center space-x-2 px-3 xl:px-4 py-2 rounded-xl transition-all duration-300 hover:bg-white/10">
+                        <i class="fas fa-user-circle text-lg group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium text-sm xl:text-base">Accounts</span>
+                    </button>
+                    <button onclick="showSection('sell')" class="nav-btn group flex items-center space-x-2 px-3 xl:px-4 py-2 rounded-xl transition-all duration-300 hover:bg-white/10">
+                        <i class="fas fa-plus-circle text-lg group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium text-sm xl:text-base">Admin</span>
+                    </button>
+                    <button onclick="showSection('contact')" class="nav-btn group flex items-center space-x-2 px-3 xl:px-4 py-2 rounded-xl transition-all duration-300 hover:bg-white/10">
+                        <i class="fas fa-envelope text-lg group-hover:scale-110 transition-transform"></i>
+                        <span class="font-medium text-sm xl:text-base">Contact</span>
+                    </button>
+                </nav>
+
+                <!-- Right Side -->
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <!-- User Profile (when logged in) -->
+                    <div id="userProfile" class="hidden relative">
+                        <button onclick="showUserMenu()" class="flex items-center space-x-2 glass px-3 py-2 rounded-xl hover:bg-white/10 transition-all duration-300 group">
+                            <div class="w-8 h-8 gradient-primary rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-sm text-white"></i>
+                            </div>
+                            <span id="userName" class="font-medium text-sm hidden md:block">User</span>
+                            <i class="fas fa-chevron-down text-xs group-hover:rotate-180 transition-transform duration-300"></i>
+                        </button>
+                        
+                        <!-- User Dropdown Menu -->
+                        <div id="userMenu" class="absolute right-0 top-full mt-2 w-48 glass rounded-2xl border border-white/20 hidden z-50">
+                            <div class="p-2">
+                                <div class="px-4 py-3 border-b border-white/10">
+                                    <p class="font-bold text-sm" id="userMenuName">User Name</p>
+                                    <p class="text-xs text-gray-400" id="userMenuEmail">user@email.com</p>
+                                </div>
+                                <button onclick="showUserProfile()" class="w-full text-left px-4 py-2 hover:bg-white/10 rounded-xl transition-all duration-300 text-sm">
+                                    <i class="fas fa-user-edit mr-2"></i>Edit Profile
+                                </button>
+                                <button onclick="showUserOrders()" class="w-full text-left px-4 py-2 hover:bg-white/10 rounded-xl transition-all duration-300 text-sm">
+                                    <i class="fas fa-shopping-bag mr-2"></i>My Orders
+                                </button>
+                                <button onclick="userLogout()" class="w-full text-left px-4 py-2 hover:bg-red-500/20 text-red-400 rounded-xl transition-all duration-300 text-sm">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Login/Register Button (when not logged in) -->
+                    <div id="authButtons" class="flex items-center space-x-2">
+                        <button onclick="showAuthModal('login')" class="gradient-primary px-4 py-2 rounded-xl font-bold text-sm btn-ripple hover-lift neon-blue">
+                            <i class="fas fa-sign-in-alt mr-1"></i>Login
+                        </button>
+                    </div>
+                    
+                    <!-- Sound Toggle -->
+                    <div class="relative">
+                        <button id="soundToggle" onclick="toggleSound()" class="relative p-2 md:p-3 rounded-xl glass hover:bg-white/10 transition-all duration-300 group" title="Toggle Sound Effects">
+                            <i id="soundIcon" class="fas fa-volume-up text-lg md:text-xl group-hover:scale-110 transition-transform"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Notifications -->
+                    <div class="relative">
+                        <button onclick="showUserNotifications()" class="relative p-2 md:p-3 rounded-xl glass hover:bg-white/10 transition-all duration-300 group">
+                            <i class="fas fa-bell text-lg md:text-xl group-hover:scale-110 transition-transform"></i>
+                            <span id="notificationBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 md:w-6 md:h-6 flex items-center justify-center font-bold hidden animate-pulse">0</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Status -->
+                    <div class="hidden md:flex items-center space-x-2 glass px-2 md:px-3 py-2 rounded-xl">
+                        <div id="connectionStatus" class="w-3 h-3 rounded-full bg-green-400 animate-pulse"></div>
+                        <span class="text-xs md:text-sm font-medium">Live</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-40 glass-dark border-t border-white/10 mobile-nav">
+        <div class="flex justify-around py-2 md:py-3">
+            <button onclick="showSection('home')" class="nav-btn flex flex-col items-center space-y-1 px-2 sm:px-4 py-2 rounded-xl transition-all duration-300">
+                <i class="fas fa-home text-base sm:text-lg"></i>
+                <span class="text-xs font-medium">Home</span>
+            </button>
+            <button onclick="showSection('accounts')" class="nav-btn flex flex-col items-center space-y-1 px-2 sm:px-4 py-2 rounded-xl transition-all duration-300">
+                <i class="fas fa-user-circle text-base sm:text-lg"></i>
+                <span class="text-xs font-medium">Accounts</span>
+            </button>
+            <button onclick="showSection('sell')" class="nav-btn flex flex-col items-center space-y-1 px-2 sm:px-4 py-2 rounded-xl transition-all duration-300">
+                <i class="fas fa-plus-circle text-base sm:text-lg"></i>
+                <span class="text-xs font-medium">Admin</span>
+            </button>
+            <button onclick="showSection('contact')" class="nav-btn flex flex-col items-center space-y-1 px-2 sm:px-4 py-2 rounded-xl transition-all duration-300">
+                <i class="fas fa-envelope text-base sm:text-lg"></i>
+                <span class="text-xs font-medium">Contact</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto mobile-padding px-4 sm:px-6 py-4 sm:py-8 pb-20 sm:pb-24 lg:pb-8">
+        <!-- Home Section -->
+        <section id="home-section" class="section-content">
+            <!-- Hero Section -->
+            <div class="text-center mb-8 sm:mb-12 lg:mb-16">
+                <h2 class="mobile-hero text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mono mb-4 sm:mb-6 text-glow bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                    OZAI GAMING
+                </h2>
+                <p class="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
+                    Your Ultimate Mobile Legends Account Marketplace
+                </p>
+                <button onclick="showSection('accounts')" class="gradient-primary mobile-btn px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold text-base sm:text-lg btn-ripple hover-lift neon-blue">
+                    <i class="fas fa-rocket mr-2"></i>
+                    Explore Accounts
+                </button>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="mobile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12 lg:mb-16">
+                <div class="glass mobile-card p-6 sm:p-8 rounded-3xl hover-lift card-enter">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 gradient-success rounded-2xl flex items-center justify-center mb-4 sm:mb-6 neon-blue">
+                        <i class="fas fa-shield-alt text-xl sm:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Secure Trading</h3>
+                    <p class="mobile-text text-gray-300 leading-relaxed">Safe and secure account transactions with verified sellers and buyer protection</p>
+                </div>
+                
+                <div class="glass mobile-card p-6 sm:p-8 rounded-3xl hover-lift card-enter" style="animation-delay: 0.1s">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 gradient-warning rounded-2xl flex items-center justify-center mb-4 sm:mb-6 neon-purple">
+                        <i class="fas fa-crown text-xl sm:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">Premium Accounts</h3>
+                    <p class="mobile-text text-gray-300 leading-relaxed">High-rank accounts with rare skins, exclusive heroes, and premium content</p>
+                </div>
+                
+                <div class="glass mobile-card p-6 sm:p-8 rounded-3xl hover-lift card-enter sm:col-span-2 lg:col-span-1" style="animation-delay: 0.2s">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 gradient-danger rounded-2xl flex items-center justify-center mb-4 sm:mb-6 neon-pink">
+                        <i class="fas fa-headset text-xl sm:text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">24/7 Support</h3>
+                    <p class="mobile-text text-gray-300 leading-relaxed">Round-the-clock customer support for all your gaming needs</p>
+                </div>
+            </div>
+
+            <!-- Stats Section -->
+            <div class="glass mobile-card p-6 sm:p-8 rounded-3xl">
+                <h3 class="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8 text-glow">Live Statistics</h3>
+                <div class="mobile-stats grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                    <div class="text-center p-4 sm:p-6 glass rounded-2xl">
+                        <div class="text-3xl sm:text-4xl font-black mono mb-2 text-blue-400" id="totalAccounts">0</div>
+                        <div class="mobile-text text-gray-300 font-medium">Total Accounts</div>
+                    </div>
+                    <div class="text-center p-4 sm:p-6 glass rounded-2xl">
+                        <div class="text-3xl sm:text-4xl font-black mono mb-2 text-green-400" id="availableAccounts">0</div>
+                        <div class="mobile-text text-gray-300 font-medium">Available Now</div>
+                    </div>
+                    <div class="text-center p-4 sm:p-6 glass rounded-2xl">
+                        <div class="text-3xl sm:text-4xl font-black mono mb-2 text-red-400" id="soldAccounts">0</div>
+                        <div class="mobile-text text-gray-300 font-medium">Successfully Sold</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accounts Section -->
+        <section id="accounts-section" class="section-content hidden">
+            <div class="mb-6 sm:mb-8">
+                <h2 class="text-3xl sm:text-4xl font-black mono mb-6 sm:mb-8 text-glow text-center">Premium Accounts</h2>
+                
+                <!-- Enhanced Filters -->
+                <div class="glass mobile-card p-4 sm:p-6 rounded-3xl mb-6 sm:mb-8">
+                    <div class="mobile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold mb-2 sm:mb-3 text-blue-300">Search Accounts</label>
+                            <div class="relative">
+                                <input type="text" id="searchInput" placeholder="Search by name, rank..." 
+                                       class="w-full bg-black/30 border border-white/20 rounded-2xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none input-glow transition-all duration-300">
+                                <i class="fas fa-search absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold mb-2 sm:mb-3 text-purple-300">Rank Filter</label>
+                            <select id="rankFilter" class="w-full bg-black/30 border border-white/20 rounded-2xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-white focus:border-purple-500 focus:outline-none input-glow transition-all duration-300">
+                                <option value="">All Ranks</option>
+                                <option value="Mythic">Mythic</option>
+                                <option value="Legend">Legend</option>
+                                <option value="Epic">Epic</option>
+                                <option value="Grandmaster">Grandmaster</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-bold mb-2 sm:mb-3 text-pink-300">Max Price (MMK)</label>
+                            <input type="number" id="priceFilter" placeholder="Enter max price" 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none input-glow transition-all duration-300">
+                        </div>
+                        <div class="flex items-end sm:col-span-2 lg:col-span-1">
+                            <button onclick="applyFilters()" class="w-full gradient-primary mobile-btn px-4 sm:px-6 py-2 sm:py-3 rounded-2xl font-bold btn-ripple hover-lift neon-blue transition-all duration-300">
+                                <i class="fas fa-filter mr-2"></i>Apply Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accounts Grid -->
+                <div id="accountsGrid" class="mobile-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                    <!-- Empty state will be shown here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Section -->
+        <section id="sell-section" class="section-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl font-black mono mb-8 text-glow text-center">Admin Control Panel</h2>
+                
+                <!-- Admin Login -->
+                <div id="adminLogin" class="glass p-8 rounded-3xl max-w-md mx-auto">
+                    <div class="text-center mb-6">
+                        <div class="w-20 h-20 gradient-secondary rounded-3xl flex items-center justify-center mx-auto mb-4 neon-pink">
+                            <i class="fas fa-lock text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">Admin Access</h3>
+                        <p class="text-gray-400">Enter your admin credentials</p>
+                    </div>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-pink-300">Admin Password</label>
+                            <input type="password" id="adminPassword" placeholder="Enter admin password" 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none input-glow transition-all duration-300">
+                        </div>
+                        <button onclick="adminLogin()" class="w-full gradient-secondary px-6 py-4 rounded-2xl font-bold text-lg btn-ripple hover-lift neon-pink">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Access Admin Panel
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Admin Panel -->
+                <div id="adminPanel" class="hidden space-y-8">
+                    <!-- Admin Controls -->
+                    <div class="glass p-6 rounded-3xl">
+                        <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                            <h3 class="text-2xl font-bold text-glow">Account Management</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="showAddAccountForm()" class="gradient-success px-6 py-3 rounded-2xl font-bold btn-ripple hover-lift neon-blue">
+                                    <i class="fas fa-plus mr-2"></i>Add Account
+                                </button>
+                                <button onclick="showNotificationPanel()" class="gradient-warning px-6 py-3 rounded-2xl font-bold btn-ripple hover-lift neon-purple">
+                                    <i class="fas fa-bell mr-2"></i>Send Notification
+                                </button>
+                                <button onclick="removeAllAccounts()" class="gradient-danger px-6 py-3 rounded-2xl font-bold btn-ripple hover-lift neon-pink">
+                                    <i class="fas fa-trash-alt mr-2"></i>Clear All
+                                </button>
+                                <button onclick="resetCompleteDatabase()" class="bg-red-900 hover:bg-red-800 px-6 py-3 rounded-2xl font-bold btn-ripple hover-lift border-2 border-red-500">
+                                    <i class="fas fa-fire mr-2"></i>Complete Reset
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Admin Accounts List -->
+                        <div id="adminAccountsList" class="space-y-4">
+                            <!-- Empty state will be shown here -->
+                        </div>
+                    </div>
+
+                    <!-- Contact Information Management -->
+                    <div class="glass p-6 rounded-3xl">
+                        <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                            <h3 class="text-2xl font-bold text-glow">Contact Information</h3>
+                            <button onclick="showEditContactModal()" class="gradient-primary px-6 py-3 rounded-2xl font-bold btn-ripple hover-lift neon-blue">
+                                <i class="fas fa-edit mr-2"></i>Edit Contact Info
+                            </button>
+                        </div>
+                        
+                        <div id="contactInfoDisplay" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="glass p-4 rounded-2xl">
+                                <h4 class="font-bold mb-3 text-blue-300">Telegram</h4>
+                                <p id="telegramDisplay" class="text-gray-300">@ozaigaming</p>
+                            </div>
+                            <div class="glass p-4 rounded-2xl">
+                                <h4 class="font-bold mb-3 text-purple-300">Discord</h4>
+                                <p id="discordDisplay" class="text-gray-300">OZAI Gaming#1234</p>
+                            </div>
+                            <div class="glass p-4 rounded-2xl">
+                                <h4 class="font-bold mb-3 text-red-300">Email</h4>
+                                <p id="emailDisplay" class="text-gray-300">contact@ozaigaming.com</p>
+                            </div>
+                            <div class="glass p-4 rounded-2xl">
+                                <h4 class="font-bold mb-3 text-green-300">Business Hours</h4>
+                                <div id="businessHoursDisplay" class="text-gray-300 text-sm">
+                                    <p>Mon-Fri: 9:00 AM - 10:00 PM</p>
+                                    <p>Sat-Sun: 10:00 AM - 8:00 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification Management -->
+                    <div class="glass p-6 rounded-3xl">
+                        <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                            <h3 class="text-2xl font-bold text-glow">Notification Management</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="showNotificationPanel()" class="gradient-warning px-6 py-3 rounded-2xl font-bold btn-ripple hover-lift neon-purple">
+                                    <i class="fas fa-plus mr-2"></i>Send New
+                                </button>
+                                <button onclick="clearAllNotifications()" class="gradient-danger px-6 py-3 rounded-2xl font-bold btn-ripple hover-lift neon-pink">
+                                    <i class="fas fa-trash-alt mr-2"></i>Clear All
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div id="adminNotificationsList" class="space-y-4">
+                            <!-- Empty state will be shown here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-section" class="section-content hidden">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-4xl font-black mono mb-8 text-glow text-center">Get In Touch</h2>
+                <div class="glass p-8 rounded-3xl">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Contact Info -->
+                        <div>
+                            <h3 class="text-2xl font-bold mb-6 text-glow">Contact Information</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-center space-x-4 p-4 glass rounded-2xl hover-lift">
+                                    <div class="w-12 h-12 bg-blue-500 rounded-2xl flex items-center justify-center neon-blue">
+                                        <i class="fab fa-telegram text-xl text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold">Telegram</p>
+                                        <p id="contactTelegram" class="text-gray-300">@ozaigaming</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center space-x-4 p-4 glass rounded-2xl hover-lift">
+                                    <div class="w-12 h-12 bg-purple-500 rounded-2xl flex items-center justify-center neon-purple">
+                                        <i class="fab fa-discord text-xl text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold">Discord</p>
+                                        <p id="contactDiscord" class="text-gray-300">OZAI Gaming#1234</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center space-x-4 p-4 glass rounded-2xl hover-lift">
+                                    <div class="w-12 h-12 bg-red-500 rounded-2xl flex items-center justify-center neon-pink">
+                                        <i class="fas fa-envelope text-xl text-white"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold">Email</p>
+                                        <p id="contactEmail" class="text-gray-300">contact@ozaigaming.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Business Hours -->
+                        <div>
+                            <h3 class="text-2xl font-bold mb-6 text-glow">Business Hours</h3>
+                            <div class="glass p-6 rounded-2xl">
+                                <div class="space-y-4 text-gray-300">
+                                    <div class="flex justify-between">
+                                        <span>Monday - Friday</span>
+                                        <span id="contactWeekdayHours" class="font-bold">9:00 AM - 10:00 PM</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Saturday - Sunday</span>
+                                        <span id="contactWeekendHours" class="font-bold">10:00 AM - 8:00 PM</span>
+                                    </div>
+                                    <div class="border-t border-white/10 pt-4 mt-4">
+                                        <p class="text-blue-400 font-bold text-center">
+                                            <i class="fas fa-clock mr-2"></i>
+                                            Average Response Time: 15 minutes
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Account Detail Modal -->
+    <div id="accountModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-2 sm:p-4">
+        <div class="glass mobile-modal max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl">
+            <div class="mobile-form p-4 sm:p-6 lg:p-8">
+                <div class="flex justify-between items-center mb-4 sm:mb-6">
+                    <h3 class="text-2xl sm:text-3xl font-black mono text-glow">Account Details</h3>
+                    <button onclick="closeAccountModal()" class="w-10 h-10 sm:w-12 sm:h-12 glass rounded-xl sm:rounded-2xl flex items-center justify-center hover:bg-white/10 transition-all duration-300">
+                        <i class="fas fa-times text-lg sm:text-xl"></i>
+                    </button>
+                </div>
+                <div id="modalContent">
+                    <!-- Modal content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Notifications Modal -->
+    <div id="userNotificationsModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-2 sm:p-4">
+        <div class="glass mobile-modal max-w-lg w-full max-h-[90vh] sm:max-h-[80vh] overflow-y-auto rounded-2xl sm:rounded-3xl">
+            <div class="mobile-form p-4 sm:p-6">
+                <div class="flex justify-between items-center mb-4 sm:mb-6">
+                    <h3 class="text-xl sm:text-2xl font-black mono text-glow">Notifications</h3>
+                    <div class="flex items-center space-x-2 sm:space-x-3">
+                        <button onclick="markAllAsRead()" class="text-xs sm:text-sm text-blue-400 hover:text-blue-300 font-medium">Mark all as read</button>
+                        <button onclick="closeUserNotifications()" class="w-8 h-8 sm:w-10 sm:h-10 glass rounded-lg sm:rounded-xl flex items-center justify-center hover:bg-white/10 transition-all duration-300">
+                            <i class="fas fa-times text-sm sm:text-base"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="userNotificationsList" class="space-y-4">
+                    <div class="text-center py-12 text-gray-400">
+                        <i class="fas fa-bell-slash text-4xl mb-4"></i>
+                        <p class="text-lg">No notifications yet</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Notification Panel Modal -->
+    <div id="notificationPanelModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass max-w-2xl w-full rounded-3xl">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-black mono text-glow">Send Notification</h3>
+                    <button onclick="closeNotificationPanel()" class="w-12 h-12 glass rounded-2xl flex items-center justify-center hover:bg-white/10 transition-all duration-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <form id="notificationForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-blue-300">Notification Type</label>
+                            <select name="type" required class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white focus:border-blue-500 focus:outline-none input-glow">
+                                <option value="">Select Type</option>
+                                <option value="info">📢 General Info</option>
+                                <option value="new_account">🆕 New Account Available</option>
+                                <option value="price_drop">💰 Price Drop</option>
+                                <option value="promotion">🎉 Special Promotion</option>
+                                <option value="maintenance">⚠️ Maintenance Notice</option>
+                                <option value="update">🔄 System Update</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-purple-300">Priority Level</label>
+                            <select name="priority" required class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white focus:border-purple-500 focus:outline-none input-glow">
+                                <option value="normal">Normal</option>
+                                <option value="high">High Priority</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-3 text-pink-300">Title</label>
+                        <input type="text" name="title" required placeholder="Notification title" 
+                               class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none input-glow">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold mb-3 text-green-300">Message</label>
+                        <textarea name="message" rows="4" required placeholder="Notification message" 
+                                  class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-green-500 focus:outline-none input-glow resize-none"></textarea>
+                    </div>
+                    <div class="flex space-x-4">
+                        <button type="submit" class="flex-1 gradient-warning px-6 py-4 rounded-2xl font-bold btn-ripple hover-lift neon-purple">
+                            <i class="fas fa-paper-plane mr-2"></i>Send Notification
+                        </button>
+                        <button type="button" onclick="closeNotificationPanel()" class="flex-1 glass px-6 py-4 rounded-2xl font-bold hover:bg-white/10 transition-all duration-300">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Contact Information Modal -->
+    <div id="editContactModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass max-w-2xl w-full rounded-3xl">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-black mono text-glow">Edit Contact Information</h3>
+                    <button onclick="closeEditContactModal()" class="w-12 h-12 glass rounded-2xl flex items-center justify-center hover:bg-white/10 transition-all duration-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <form id="editContactForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-blue-300">Telegram</label>
+                            <input type="text" name="telegram" id="editTelegram" placeholder="@username" 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none input-glow">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-purple-300">Discord</label>
+                            <input type="text" name="discord" id="editDiscord" placeholder="Username#1234" 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none input-glow">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold mb-3 text-red-300">Email</label>
+                            <input type="email" name="email" id="editEmail" placeholder="contact@example.com" 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-red-500 focus:outline-none input-glow">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-3 text-green-300">Business Hours</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Monday - Friday</label>
+                                <input type="text" name="weekdayHours" id="editWeekdayHours" placeholder="9:00 AM - 10:00 PM" 
+                                       class="w-full bg-black/30 border border-white/20 rounded-xl px-4 py-2 text-white placeholder-gray-400 focus:border-green-500 focus:outline-none input-glow">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Saturday - Sunday</label>
+                                <input type="text" name="weekendHours" id="editWeekendHours" placeholder="10:00 AM - 8:00 PM" 
+                                       class="w-full bg-black/30 border border-white/20 rounded-xl px-4 py-2 text-white placeholder-gray-400 focus:border-green-500 focus:outline-none input-glow">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button type="submit" class="flex-1 gradient-success px-6 py-4 rounded-2xl font-bold text-lg btn-ripple hover-lift neon-blue">
+                            <i class="fas fa-save mr-2"></i>Save Changes
+                        </button>
+                        <button type="button" onclick="closeEditContactModal()" class="flex-1 glass px-6 py-4 rounded-2xl font-bold hover:bg-white/10 transition-all duration-300">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Authentication Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass max-w-md w-full rounded-3xl">
+            <div class="p-8">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="authModalTitle" class="text-2xl font-black mono text-glow">Login</h3>
+                    <button onclick="closeAuthModal()" class="w-12 h-12 glass rounded-2xl flex items-center justify-center hover:bg-white/10 transition-all duration-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <div id="loginForm" class="space-y-6">
+                    <div class="text-center mb-6">
+                        <div class="w-20 h-20 gradient-primary rounded-3xl flex items-center justify-center mx-auto mb-4 neon-blue">
+                            <i class="fas fa-sign-in-alt text-3xl text-white"></i>
+                        </div>
+                        <p class="text-gray-400">Welcome back to OZAI Gaming!</p>
+                    </div>
+                    
+                    <form id="loginFormElement" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-blue-300">Email</label>
+                            <input type="email" name="email" required placeholder="Enter your email" 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none input-glow transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-purple-300">Password</label>
+                            <div class="relative">
+                                <input type="password" name="password" required placeholder="Enter your password" 
+                                       class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 pr-12 text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none input-glow transition-all duration-300">
+                                <button type="button" onclick="togglePasswordVisibility('loginPassword')" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+                                    <i class="fas fa-eye" id="loginPasswordIcon"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full gradient-primary px-6 py-4 rounded-2xl font-bold text-lg btn-ripple hover-lift neon-blue">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Login
+                        </button>
+                    </form>
+                    
+                    <div class="text-center">
+                        <p class="text-gray-400">Don't have an account?</p>
+                        <button onclick="switchToRegister()" class="text-blue-400 hover:text-blue-300 font-bold transition-colors duration-300">
+                            Create Account
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Register Form -->
+                <div id="registerForm" class="space-y-6 hidden">
+                    <div class="text-center mb-6">
+                        <div class="w-20 h-20 gradient-success rounded-3xl flex items-center justify-center mx-auto mb-4 neon-blue">
+                            <i class="fas fa-user-plus text-3xl text-white"></i>
+                        </div>
+                        <p class="text-gray-400">Join OZAI Gaming community!</p>
+                    </div>
+                    
+                    <form id="registerFormElement" class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-green-300">Full Name</label>
+                            <input type="text" name="name" required placeholder="Enter your full name" 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-green-500 focus:outline-none input-glow transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-yellow-300">Phone Number</label>
+                            <input type="tel" name="phone" required placeholder="Enter your phone number" 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-yellow-500 focus:outline-none input-glow transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-blue-300">Email</label>
+                            <input type="email" name="email" required placeholder="Enter your email" 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none input-glow transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-purple-300">Password</label>
+                            <div class="relative">
+                                <input type="password" name="password" required placeholder="Create a password" 
+                                       class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 pr-12 text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none input-glow transition-all duration-300">
+                                <button type="button" onclick="togglePasswordVisibility('registerPassword')" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+                                    <i class="fas fa-eye" id="registerPasswordIcon"></i>
+                                </button>
+                            </div>
+                            <div class="mt-2">
+                                <div class="text-xs text-gray-400 space-y-1">
+                                    <p>Password must contain:</p>
+                                    <div class="grid grid-cols-2 gap-1">
+                                        <span id="lengthCheck" class="text-red-400">• 8+ characters</span>
+                                        <span id="upperCheck" class="text-red-400">• Uppercase letter</span>
+                                        <span id="lowerCheck" class="text-red-400">• Lowercase letter</span>
+                                        <span id="numberCheck" class="text-red-400">• Number</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full gradient-success px-6 py-4 rounded-2xl font-bold text-lg btn-ripple hover-lift neon-blue">
+                            <i class="fas fa-user-plus mr-2"></i>Create Account
+                        </button>
+                    </form>
+                    
+                    <div class="text-center">
+                        <p class="text-gray-400">Already have an account?</p>
+                        <button onclick="switchToLogin()" class="text-blue-400 hover:text-blue-300 font-bold transition-colors duration-300">
+                            Sign In
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Profile Modal -->
+    <div id="userProfileModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass max-w-2xl w-full rounded-3xl">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-black mono text-glow">User Profile</h3>
+                    <button onclick="closeUserProfile()" class="w-12 h-12 glass rounded-2xl flex items-center justify-center hover:bg-white/10 transition-all duration-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <form id="userProfileForm" class="space-y-6">
+                    <div class="text-center mb-6">
+                        <div class="w-24 h-24 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 neon-blue">
+                            <i class="fas fa-user text-3xl text-white"></i>
+                        </div>
+                        <h4 id="profileUserName" class="text-xl font-bold">User Name</h4>
+                        <p id="profileUserEmail" class="text-gray-400">user@email.com</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-green-300">Full Name</label>
+                            <input type="text" name="name" id="profileName" required 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-green-500 focus:outline-none input-glow transition-all duration-300">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-yellow-300">Phone Number</label>
+                            <input type="tel" name="phone" id="profilePhone" required 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-yellow-500 focus:outline-none input-glow transition-all duration-300">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-bold mb-3 text-blue-300">Email</label>
+                            <input type="email" name="email" id="profileEmail" required readonly 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 opacity-60 cursor-not-allowed">
+                            <p class="text-xs text-gray-400 mt-1">Email cannot be changed</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button type="submit" class="flex-1 gradient-success px-6 py-4 rounded-2xl font-bold text-lg btn-ripple hover-lift neon-blue">
+                            <i class="fas fa-save mr-2"></i>Save Changes
+                        </button>
+                        <button type="button" onclick="closeUserProfile()" class="flex-1 glass px-6 py-4 rounded-2xl font-bold hover:bg-white/10 transition-all duration-300">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Orders Modal -->
+    <div id="userOrdersModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-3xl">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-black mono text-glow">My Orders</h3>
+                    <button onclick="closeUserOrders()" class="w-12 h-12 glass rounded-2xl flex items-center justify-center hover:bg-white/10 transition-all duration-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                
+                <div id="userOrdersList" class="space-y-4">
+                    <div class="text-center py-12 text-gray-400">
+                        <div class="w-16 h-16 glass rounded-3xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-shopping-bag text-2xl"></i>
+                        </div>
+                        <p class="text-lg">No orders yet</p>
+                        <p class="text-sm">Your purchased accounts will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Account Modal -->
+    <div id="addAccountModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="glass max-w-4xl w-full max-h-[90vh] overflow-y-auto rounded-3xl">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-3xl font-black mono text-glow">Add New Account</h3>
+                    <button onclick="closeAddAccountModal()" class="w-12 h-12 glass rounded-2xl flex items-center justify-center hover:bg-white/10 transition-all duration-300">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                <form id="addAccountForm" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-blue-300">Account Name</label>
+                            <input type="text" name="name" required class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none input-glow">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-purple-300">Rank</label>
+                            <select name="rank" required class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white focus:border-purple-500 focus:outline-none input-glow">
+                                <option value="">Select Rank</option>
+                                <option value="Mythic">Mythic</option>
+                                <option value="Legend">Legend</option>
+                                <option value="Epic">Epic</option>
+                                <option value="Grandmaster">Grandmaster</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-pink-300">Price (MMK)</label>
+                            <input type="number" name="price" required class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-pink-500 focus:outline-none input-glow">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-green-300">Heroes Count</label>
+                            <input type="number" name="heroes" required class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-green-500 focus:outline-none input-glow">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-yellow-300">Skins Count</label>
+                            <input type="number" name="skins" required class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-yellow-500 focus:outline-none input-glow">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold mb-3 text-indigo-300">Seller Name</label>
+                            <input type="text" name="sellerName" required class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-indigo-500 focus:outline-none input-glow">
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Information -->
+                    <div>
+                        <label class="block text-sm font-bold mb-3 text-cyan-300">Contact Information</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Facebook</label>
+                                <input type="text" name="facebook" placeholder="Facebook profile/page URL" class="w-full bg-black/30 border border-white/20 rounded-xl px-4 py-2 text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none input-glow">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Messenger</label>
+                                <input type="text" name="messenger" placeholder="Messenger username" class="w-full bg-black/30 border border-white/20 rounded-xl px-4 py-2 text-white placeholder-gray-400 focus:border-blue-500 focus:outline-none input-glow">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">Telegram</label>
+                                <input type="text" name="telegram" placeholder="@username" class="w-full bg-black/30 border border-white/20 rounded-xl px-4 py-2 text-white placeholder-gray-400 focus:border-blue-400 focus:outline-none input-glow">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-2">TikTok</label>
+                                <input type="text" name="tiktok" placeholder="@username" class="w-full bg-black/30 border border-white/20 rounded-xl px-4 py-2 text-white placeholder-gray-400 focus:border-black focus:outline-none input-glow">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-3 text-orange-300">Description</label>
+                        <textarea name="description" rows="3" class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-gray-400 focus:border-orange-500 focus:outline-none input-glow resize-none"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-bold mb-3 text-red-300">Account Images</label>
+                        <div class="space-y-4">
+                            <input type="file" id="imageUpload" accept="image/*" multiple 
+                                   class="w-full bg-black/30 border border-white/20 rounded-2xl px-4 py-3 text-white focus:border-red-500 focus:outline-none input-glow file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:bg-red-500 file:text-white file:cursor-pointer hover:file:bg-red-600 file:font-medium">
+                            <div id="imagePreview" class="grid grid-cols-2 md:grid-cols-3 gap-4 hidden">
+                                <!-- Image previews will appear here -->
+                            </div>
+                            <div id="uploadProgress" class="hidden">
+                                <div class="bg-gray-600 rounded-full h-3">
+                                    <div id="progressBar" class="gradient-primary h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                                <p class="text-sm text-gray-300 mt-2 text-center loading-dots">Uploading images</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4">
+                        <button type="submit" class="flex-1 gradient-success px-6 py-4 rounded-2xl font-bold text-lg btn-ripple hover-lift neon-blue">
+                            <i class="fas fa-plus mr-2"></i>Add Account
+                        </button>
+                        <button type="button" onclick="closeAddAccountModal()" class="flex-1 glass px-6 py-4 rounded-2xl font-bold hover:bg-white/10 transition-all duration-300">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAgKEaZxqdQuXt9-sKLXFdiRQkzFiUqZvo",
+            authDomain: "uptime-tube-eda52.firebaseapp.com",
+            databaseURL: "https://uptime-tube-eda52-default-rtdb.firebaseio.com",
+            projectId: "uptime-tube-eda52",
+            storageBucket: "uptime-tube-eda52.appspot.com",
+            messagingSenderId: "492215033848",
+            appId: "1:492215033848:web:b87d5c90e7474b3f87400d"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const storage = firebase.storage();
+        const accountsRef = database.ref('accounts');
+        const notificationsRef = database.ref('notifications');
+        const contactInfoRef = database.ref('contactInfo');
+
+        // Global variables - COMPLETELY FRESH START
+        let accounts = [];
+        let notifications = [];
+        let currentSection = 'home';
+        let isAdminLoggedIn = false;
+        let uploadedImageUrls = [];
+        let unreadNotifications = 0;
+        let currentUser = null;
+        let isUserLoggedIn = false;
+        let contactInfo = {
+            telegram: '@ozaigaming',
+            discord: 'OZAI Gaming#1234',
+            email: 'contact@ozaigaming.com',
+            weekdayHours: '9:00 AM - 10:00 PM',
+            weekendHours: '10:00 AM - 8:00 PM'
+        };
+
+        // Sound Effects System
+        class SoundManager {
+            constructor() {
+                this.sounds = {};
+                this.isEnabled = true;
+                this.volume = 0.3;
+                this.initializeSounds();
+            }
+
+            initializeSounds() {
+                this.sounds = {
+                    click: this.createBeep(800, 0.1, 'sine'),
+                    success: this.createBeep(1000, 0.2, 'sine'),
+                    error: this.createBeep(400, 0.3, 'sawtooth'),
+                    hover: this.createBeep(600, 0.05, 'sine'),
+                    notification: this.createBeep(900, 0.15, 'triangle'),
+                    admin: this.createBeep(1200, 0.12, 'square'),
+                    delete: this.createBeep(300, 0.25, 'sawtooth'),
+                    upload: this.createBeep(1100, 0.18, 'sine')
+                };
+            }
+
+            createBeep(frequency, duration, type = 'sine') {
+                return () => {
+                    if (!this.isEnabled) return;
+                    
+                    try {
+                        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        oscillator.frequency.value = frequency;
+                        oscillator.type = type;
+                        
+                        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+                        gainNode.gain.linearRampToValueAtTime(this.volume, audioContext.currentTime + 0.01);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                        
+                        oscillator.start(audioContext.currentTime);
+                        oscillator.stop(audioContext.currentTime + duration);
+                    } catch (error) {
+                        console.log('Audio not supported:', error);
+                    }
+                };
+            }
+
+            play(soundType) {
+                if (this.sounds[soundType]) {
+                    this.sounds[soundType]();
+                }
+            }
+
+            toggle() {
+                this.isEnabled = !this.isEnabled;
+                return this.isEnabled;
+            }
+        }
+
+        // Initialize sound manager
+        const soundManager = new SoundManager();
+
+        // Hide loading screen after page loads
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Initialize completely fresh database
+        function initializeFreshDatabase() {
+            // Show welcome message for fresh start
+            showNotification('🎉 Welcome to OZAI Gaming! Ready to add your first account.', 'info');
+            
+            // Initialize empty states
+            updateStats();
+            displayAccounts();
+            displayEmptyAdminPanel();
+            displayEmptyNotifications();
+        }
+
+        // User Authentication System
+        const usersRef = database.ref('users');
+
+        // Check if user is already logged in
+        function checkUserSession() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    isUserLoggedIn = true;
+                    updateUserInterface();
+                } catch (error) {
+                    localStorage.removeItem('currentUser');
+                }
+            }
+        }
+
+        // Update user interface based on login status
+        function updateUserInterface() {
+            const userProfile = document.getElementById('userProfile');
+            const authButtons = document.getElementById('authButtons');
+            const userName = document.getElementById('userName');
+            const userMenuName = document.getElementById('userMenuName');
+            const userMenuEmail = document.getElementById('userMenuEmail');
+
+            if (isUserLoggedIn && currentUser) {
+                userProfile.classList.remove('hidden');
+                authButtons.classList.add('hidden');
+                userName.textContent = currentUser.name.split(' ')[0];
+                userMenuName.textContent = currentUser.name;
+                userMenuEmail.textContent = currentUser.email;
+            } else {
+                userProfile.classList.add('hidden');
+                authButtons.classList.remove('hidden');
+            }
+        }
+
+        // Authentication Modal Functions
+        function showAuthModal(type = 'login') {
+            document.getElementById('authModal').classList.remove('hidden');
+            if (type === 'login') {
+                switchToLogin();
+            } else {
+                switchToRegister();
+            }
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+            document.getElementById('loginFormElement').reset();
+            document.getElementById('registerFormElement').reset();
+            clearPasswordValidation();
+        }
+
+        function switchToLogin() {
+            document.getElementById('authModalTitle').textContent = 'Login';
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+        }
+
+        function switchToRegister() {
+            document.getElementById('authModalTitle').textContent = 'Register';
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+        }
+
+        // Password visibility toggle
+        function togglePasswordVisibility(type) {
+            const passwordInput = document.querySelector(`#${type === 'loginPassword' ? 'loginForm' : 'registerForm'} input[type="password"], #${type === 'loginPassword' ? 'loginForm' : 'registerForm'} input[type="text"]`);
+            const icon = document.getElementById(`${type}Icon`);
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        // Password validation for registration
+        function validatePassword(password) {
+            const checks = {
+                length: password.length >= 8,
+                upper: /[A-Z]/.test(password),
+                lower: /[a-z]/.test(password),
+                number: /\d/.test(password)
+            };
+
+            document.getElementById('lengthCheck').className = checks.length ? 'text-green-400' : 'text-red-400';
+            document.getElementById('upperCheck').className = checks.upper ? 'text-green-400' : 'text-red-400';
+            document.getElementById('lowerCheck').className = checks.lower ? 'text-green-400' : 'text-red-400';
+            document.getElementById('numberCheck').className = checks.number ? 'text-green-400' : 'text-red-400';
+
+            return Object.values(checks).every(check => check);
+        }
+
+        function clearPasswordValidation() {
+            ['lengthCheck', 'upperCheck', 'lowerCheck', 'numberCheck'].forEach(id => {
+                document.getElementById(id).className = 'text-red-400';
+            });
+        }
+
+        // User registration
+        async function registerUser(userData) {
+            try {
+                // Check if email already exists
+                const existingUsers = await usersRef.orderByChild('email').equalTo(userData.email).once('value');
+                if (existingUsers.exists()) {
+                    throw new Error('Email already registered');
+                }
+
+                // Create user account
+                const userRef = await usersRef.push({
+                    name: userData.name,
+                    email: userData.email,
+                    phone: userData.phone,
+                    password: btoa(userData.password), // Simple encoding (not secure for production)
+                    createdAt: Date.now(),
+                    lastLogin: Date.now()
+                });
+
+                currentUser = {
+                    id: userRef.key,
+                    name: userData.name,
+                    email: userData.email,
+                    phone: userData.phone,
+                    createdAt: Date.now()
+                };
+
+                isUserLoggedIn = true;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserInterface();
+                closeAuthModal();
+                
+                soundManager.play('success');
+                showNotification(`🎉 Welcome to OZAI Gaming, ${userData.name}!`, 'success');
+                
+                return true;
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // User login
+        async function loginUser(email, password) {
+            try {
+                const userSnapshot = await usersRef.orderByChild('email').equalTo(email).once('value');
+                
+                if (!userSnapshot.exists()) {
+                    throw new Error('Email not found');
+                }
+
+                let userData = null;
+                let userId = null;
+                userSnapshot.forEach((childSnapshot) => {
+                    userData = childSnapshot.val();
+                    userId = childSnapshot.key;
+                });
+
+                if (atob(userData.password) !== password) {
+                    throw new Error('Invalid password');
+                }
+
+                // Update last login
+                await usersRef.child(userId).update({ lastLogin: Date.now() });
+
+                currentUser = {
+                    id: userId,
+                    name: userData.name,
+                    email: userData.email,
+                    phone: userData.phone,
+                    createdAt: userData.createdAt
+                };
+
+                isUserLoggedIn = true;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserInterface();
+                closeAuthModal();
+                
+                soundManager.play('success');
+                showNotification(`🎉 Welcome back, ${userData.name}!`, 'success');
+                
+                return true;
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // User logout
+        function userLogout() {
+            currentUser = null;
+            isUserLoggedIn = false;
+            localStorage.removeItem('currentUser');
+            updateUserInterface();
+            hideUserMenu();
+            
+            soundManager.play('click');
+            showNotification('👋 Logged out successfully!', 'info');
+        }
+
+        // User menu functions
+        function showUserMenu() {
+            const userMenu = document.getElementById('userMenu');
+            userMenu.classList.toggle('hidden');
+        }
+
+        function hideUserMenu() {
+            document.getElementById('userMenu').classList.add('hidden');
+        }
+
+        // User profile functions
+        function showUserProfile() {
+            if (!isUserLoggedIn) return;
+            
+            document.getElementById('userProfileModal').classList.remove('hidden');
+            document.getElementById('profileName').value = currentUser.name;
+            document.getElementById('profilePhone').value = currentUser.phone;
+            document.getElementById('profileEmail').value = currentUser.email;
+            document.getElementById('profileUserName').textContent = currentUser.name;
+            document.getElementById('profileUserEmail').textContent = currentUser.email;
+            hideUserMenu();
+        }
+
+        function closeUserProfile() {
+            document.getElementById('userProfileModal').classList.add('hidden');
+        }
+
+        // Update user profile
+        async function updateUserProfile(profileData) {
+            try {
+                await usersRef.child(currentUser.id).update({
+                    name: profileData.name,
+                    phone: profileData.phone
+                });
+
+                currentUser.name = profileData.name;
+                currentUser.phone = profileData.phone;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUserInterface();
+                closeUserProfile();
+                
+                soundManager.play('success');
+                showNotification('✅ Profile updated successfully!', 'success');
+            } catch (error) {
+                showNotification('❌ Error updating profile!', 'error');
+                console.error('Profile update error:', error);
+            }
+        }
+
+        // User orders functions
+        function showUserOrders() {
+            if (!isUserLoggedIn) return;
+            
+            document.getElementById('userOrdersModal').classList.remove('hidden');
+            hideUserMenu();
+            // TODO: Load user orders from database
+        }
+
+        function closeUserOrders() {
+            document.getElementById('userOrdersModal').classList.add('hidden');
+        }
+
+        // Listen for real-time updates
+        function setupRealtimeListeners() {
+            accountsRef.on('value', (snapshot) => {
+                accounts = [];
+                if (snapshot.exists()) {
+                    snapshot.forEach((childSnapshot) => {
+                        const account = childSnapshot.val();
+                        account.id = childSnapshot.key;
+                        accounts.push(account);
+                    });
+                }
+                
+                updateStats();
+                if (currentSection === 'accounts') {
+                    displayAccounts();
+                }
+                if (isAdminLoggedIn && currentSection === 'sell') {
+                    displayAdminPanel();
+                }
+            });
+
+            notificationsRef.orderByChild('timestamp').limitToLast(50).on('value', (snapshot) => {
+                notifications = [];
+                if (snapshot.exists()) {
+                    snapshot.forEach((childSnapshot) => {
+                        const notification = childSnapshot.val();
+                        notification.id = childSnapshot.key;
+                        notifications.push(notification);
+                    });
+                    notifications.sort((a, b) => b.timestamp - a.timestamp);
+                }
+                
+                updateNotificationBadge();
+                if (isAdminLoggedIn && currentSection === 'sell') {
+                    displayAdminNotifications();
+                }
+            });
+
+            contactInfoRef.on('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    contactInfo = { ...contactInfo, ...snapshot.val() };
+                }
+                updateContactInfoDisplay();
+            });
+
+            // Connection status
+            const connectedRef = database.ref('.info/connected');
+            connectedRef.on('value', (snapshot) => {
+                const connectionStatus = document.getElementById('connectionStatus');
+                if (snapshot.val() === true) {
+                    connectionStatus.className = 'w-3 h-3 rounded-full bg-green-400 animate-pulse';
+                } else {
+                    connectionStatus.className = 'w-3 h-3 rounded-full bg-red-400 animate-pulse';
+                }
+            });
+        }
+
+        // Update statistics
+        function updateStats() {
+            const total = accounts.length;
+            const available = accounts.filter(acc => acc.status === 'available').length;
+            const sold = accounts.filter(acc => acc.status === 'sold').length;
+
+            animateNumber('totalAccounts', total);
+            animateNumber('availableAccounts', available);
+            animateNumber('soldAccounts', sold);
+        }
+
+        // Animate number counting
+        function animateNumber(elementId, targetNumber) {
+            const element = document.getElementById(elementId);
+            const currentNumber = parseInt(element.textContent) || 0;
+            const increment = Math.ceil((targetNumber - currentNumber) / 20);
+            
+            if (currentNumber < targetNumber) {
+                element.textContent = Math.min(currentNumber + increment, targetNumber);
+                setTimeout(() => animateNumber(elementId, targetNumber), 50);
+            }
+        }
+
+        // Navigation
+        function showSection(section) {
+            document.querySelectorAll('.section-content').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            document.getElementById(section + '-section').classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white/20', 'text-white');
+                btn.classList.add('text-gray-300');
+            });
+            
+            const activeNavs = document.querySelectorAll(`[onclick="showSection('${section}')"]`);
+            activeNavs.forEach(nav => {
+                nav.classList.remove('text-gray-300');
+                nav.classList.add('bg-white/20', 'text-white');
+            });
+            
+            currentSection = section;
+            
+            if (section === 'accounts') {
+                displayAccounts();
+            } else if (section === 'sell') {
+                if (isAdminLoggedIn) {
+                    displayAdminPanel();
+                }
+            }
+        }
+
+        // Display accounts - FRESH START VERSION
+        function displayAccounts(filteredAccounts = null) {
+            const accountsToShow = filteredAccounts || accounts;
+            const grid = document.getElementById('accountsGrid');
+            
+            if (accountsToShow.length === 0) {
+                const isFiltered = filteredAccounts !== null;
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16">
+                        <div class="w-20 h-20 glass rounded-3xl flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-${isFiltered ? 'search' : 'plus-circle'} text-3xl text-gray-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">${isFiltered ? 'No Accounts Found' : 'No Accounts Yet'}</h3>
+                        <p class="text-gray-400 mb-4">${isFiltered ? 'Try adjusting your filters or check back later' : 'Ready to add your first premium ML account!'}</p>
+                        ${!isFiltered ? `
+                            <button onclick="showSection('sell')" class="gradient-primary px-6 py-3 rounded-2xl font-bold btn-ripple hover-lift neon-blue">
+                                <i class="fas fa-plus mr-2"></i>Add First Account
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                return;
+            }
+            
+            // Display accounts normally when they exist
+            grid.innerHTML = accountsToShow.map((account, index) => `
+                <div class="glass rounded-2xl sm:rounded-3xl overflow-hidden hover-lift card-enter" style="animation-delay: ${index * 0.1}s">
+                    <div class="relative">
+                        <img src="${account.images[0]}" alt="${account.name}" class="w-full h-48 sm:h-56 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                        
+                        <div class="absolute top-2 sm:top-4 right-2 sm:right-4">
+                            <span class="px-2 sm:px-3 py-1 ${account.status === 'available' ? 'status-available' : 'status-sold'} text-white text-xs sm:text-sm font-bold rounded-full">
+                                ${account.status === 'available' ? '✅ Available' : '❌ Sold'}
+                            </span>
+                        </div>
+                        
+                        <div class="absolute top-2 sm:top-4 left-2 sm:left-4">
+                            <span class="px-2 sm:px-3 py-1 gradient-primary text-white text-xs sm:text-sm font-bold rounded-full neon-blue">
+                                ${account.rank}
+                            </span>
+                        </div>
+                        
+                        <div class="absolute bottom-2 sm:bottom-4 left-2 sm:left-4">
+                            <div class="glass px-3 sm:px-4 py-1 sm:py-2 rounded-xl sm:rounded-2xl">
+                                <span class="text-xl sm:text-2xl font-black mono text-white">${account.price.toLocaleString()} MMK</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-card p-4 sm:p-6">
+                        <h3 class="text-lg sm:text-xl font-bold mb-3 text-glow">${account.name}</h3>
+                        
+                        <div class="grid grid-cols-3 gap-2 sm:gap-3 mb-4">
+                            <div class="text-center glass p-2 sm:p-3 rounded-xl sm:rounded-2xl">
+                                <div class="text-sm sm:text-base font-bold text-blue-400">${account.heroes}</div>
+                                <div class="text-xs text-gray-400">Heroes</div>
+                            </div>
+                            <div class="text-center glass p-2 sm:p-3 rounded-xl sm:rounded-2xl">
+                                <div class="text-sm sm:text-base font-bold text-purple-400">${account.skins}</div>
+                                <div class="text-xs text-gray-400">Skins</div>
+                            </div>
+                            <div class="text-center glass p-2 sm:p-3 rounded-xl sm:rounded-2xl">
+                                <div class="text-sm sm:text-base font-bold text-green-400">${account.views || 0}</div>
+                                <div class="text-xs text-gray-400">Views</div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="showAccountDetails('${account.id}')" 
+                                class="w-full gradient-primary mobile-btn px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-bold btn-ripple hover-lift neon-blue transition-all duration-300">
+                            <i class="fas fa-eye mr-2"></i>View Details
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Display empty admin panel
+        function displayEmptyAdminPanel() {
+            const adminList = document.getElementById('adminAccountsList');
+            adminList.innerHTML = `
+                <div class="text-center py-12">
+                    <div class="w-16 h-16 glass rounded-3xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-database text-2xl text-gray-400"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">No Accounts Yet</h4>
+                    <p class="text-gray-400 mb-4">Database is completely clean and ready for your first account</p>
+                    <button onclick="showAddAccountForm()" class="gradient-success px-6 py-3 rounded-2xl font-bold btn-ripple hover-lift neon-blue">
+                        <i class="fas fa-plus mr-2"></i>Add First Account
+                    </button>
+                </div>
+            `;
+        }
+
+        // Display empty notifications
+        function displayEmptyNotifications() {
+            const notificationsList = document.getElementById('adminNotificationsList');
+            notificationsList.innerHTML = `
+                <div class="text-center py-12">
+                    <div class="w-16 h-16 glass rounded-3xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bell-slash text-2xl text-gray-400"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-2">No Notifications Yet</h4>
+                    <p class="text-gray-400 mb-4">Ready to send your first notification to users</p>
+                    <button onclick="showNotificationPanel()" class="gradient-warning px-6 py-3 rounded-2xl font-bold btn-ripple hover-lift neon-purple">
+                        <i class="fas fa-plus mr-2"></i>Send First Notification
+                    </button>
+                </div>
+            `;
+        }
+
+        // Admin functions
+        function adminLogin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === '295801') {
+                isAdminLoggedIn = true;
+                document.getElementById('adminLogin').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                displayAdminPanel();
+                soundManager.play('admin');
+                showNotification('🎉 Welcome to Admin Panel! Database is fresh and ready.', 'success');
+            } else {
+                soundManager.play('error');
+                showNotification('❌ Invalid admin password!', 'error');
+                const passwordField = document.getElementById('adminPassword');
+                passwordField.style.animation = 'shake 0.5s';
+                setTimeout(() => passwordField.style.animation = '', 500);
+            }
+        }
+
+        function displayAdminPanel() {
+            if (accounts.length === 0) {
+                displayEmptyAdminPanel();
+            } else {
+                // Display accounts normally when they exist
+                const adminList = document.getElementById('adminAccountsList');
+                adminList.innerHTML = accounts.map((account, index) => `
+                    <div class="glass p-6 rounded-2xl hover-lift card-enter" style="animation-delay: ${index * 0.05}s">
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <h4 class="text-xl font-bold text-glow">${account.name}</h4>
+                                    <span class="px-3 py-1 gradient-primary text-white text-sm rounded-full font-bold">${account.rank}</span>
+                                    <span class="px-3 py-1 ${account.status === 'available' ? 'status-available' : 'status-sold'} text-white text-sm rounded-full font-bold">
+                                        ${account.status === 'available' ? 'Available' : 'Sold'}
+                                    </span>
+                                </div>
+                                <p class="text-gray-300 mb-2">💰 ${account.price.toLocaleString()} MMK • 👥 ${account.heroes} Heroes • 👕 ${account.skins} Skins • 👁️ ${account.views || 0} Views</p>
+                                <p class="text-sm text-gray-400">Seller: ${account.sellerName || 'Unknown'}</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="editAccount('${account.id}')" 
+                                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-xl font-medium transition-all duration-300 btn-ripple hover-lift">
+                                    <i class="fas fa-edit mr-1"></i>Edit
+                                </button>
+                                <button onclick="toggleAccountStatus('${account.id}')" 
+                                        class="px-4 py-2 ${account.status === 'available' ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-green-600 hover:bg-green-700'} rounded-xl font-medium transition-all duration-300 btn-ripple hover-lift">
+                                    <i class="fas fa-${account.status === 'available' ? 'times' : 'check'} mr-1"></i>
+                                    ${account.status === 'available' ? 'Mark Sold' : 'Mark Available'}
+                                </button>
+                                <button onclick="deleteAccount('${account.id}')" 
+                                        class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl font-medium transition-all duration-300 btn-ripple hover-lift">
+                                    <i class="fas fa-trash-alt mr-1"></i>Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            if (notifications.length === 0) {
+                displayEmptyNotifications();
+            } else {
+                displayAdminNotifications();
+            }
+        }
+
+        function displayAdminNotifications() {
+            const notificationsList = document.getElementById('adminNotificationsList');
+            
+            if (notifications.length === 0) {
+                displayEmptyNotifications();
+                return;
+            }
+            
+            notificationsList.innerHTML = notifications.map((notification, index) => {
+                const typeIcons = {
+                    info: '📢',
+                    new_account: '🆕',
+                    price_drop: '💰',
+                    promotion: '🎉',
+                    maintenance: '⚠️',
+                    update: '🔄'
+                };
+                
+                const priorityColors = {
+                    normal: 'border-white/20',
+                    high: 'border-yellow-500/50',
+                    urgent: 'border-red-500/50'
+                };
+                
+                return `
+                    <div class="glass p-6 rounded-2xl border ${priorityColors[notification.priority]} hover-lift card-enter" style="animation-delay: ${index * 0.05}s">
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-3">
+                                    <span class="text-2xl mr-3">${typeIcons[notification.type] || '📢'}</span>
+                                    <h4 class="text-lg font-bold text-glow">${notification.title}</h4>
+                                    <span class="ml-3 px-3 py-1 ${notification.priority === 'urgent' ? 'bg-red-600' : notification.priority === 'high' ? 'bg-yellow-600' : 'bg-gray-600'} text-white text-xs rounded-full font-bold">
+                                        ${notification.priority.toUpperCase()}
+                                    </span>
+                                </div>
+                                <p class="text-gray-300 mb-2">${notification.message}</p>
+                                <p class="text-sm text-gray-400">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    ${new Date(notification.timestamp).toLocaleString()}
+                                </p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="editNotification('${notification.id}')" 
+                                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-xl font-medium transition-all duration-300 btn-ripple hover-lift">
+                                    <i class="fas fa-edit mr-1"></i>Edit
+                                </button>
+                                <button onclick="deleteNotification('${notification.id}')" 
+                                        class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl font-medium transition-all duration-300 btn-ripple hover-lift">
+                                    <i class="fas fa-trash-alt mr-1"></i>Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Complete database reset function
+        async function resetCompleteDatabase() {
+            if (confirm('🔥 COMPLETE DATABASE RESET 🔥\n\nThis will permanently delete EVERYTHING:\n• All accounts and images\n• All notifications\n• All contact information\n• All user data\n• All settings\n\nThe website will be completely fresh like new installation.\n\nThis action CANNOT be undone!\n\nAre you absolutely sure?')) {
+                if (confirm('FINAL WARNING: This will delete ALL data permanently!\n\nType "RESET EVERYTHING" in your mind and click OK to proceed.')) {
+                    try {
+                        const loadingOverlay = document.createElement('div');
+                        loadingOverlay.className = 'fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center';
+                        loadingOverlay.innerHTML = `
+                            <div class="text-center">
+                                <div class="w-20 h-20 border-4 border-red-500/30 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
+                                <h2 class="text-2xl font-bold text-white mb-2">Resetting Database</h2>
+                                <p class="text-red-300">Deleting all data permanently...</p>
+                            </div>
+                        `;
+                        document.body.appendChild(loadingOverlay);
+                        
+                        // Delete all Firebase Storage files
+                        const storageRef = storage.ref();
+                        try {
+                            const listResult = await storageRef.listAll();
+                            const deletePromises = listResult.items.map(item => item.delete());
+                            await Promise.all(deletePromises);
+                        } catch (storageError) {
+                            console.log('Storage cleanup completed or was already empty');
+                        }
+                        
+                        // Delete all database data
+                        await database.ref().remove();
+                        
+                        // Clear all local storage
+                        localStorage.clear();
+                        
+                        document.body.removeChild(loadingOverlay);
+                        showNotification('🎉 Database completely reset! Website is now brand new.', 'success');
+                        
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 2000);
+                        
+                    } catch (error) {
+                        showNotification('Error during complete reset!', 'error');
+                        console.error('Reset error:', error);
+                    }
+                }
+            }
+        }
+
+        // Notification functions
+        function updateNotificationBadge() {
+            const readNotifications = JSON.parse(localStorage.getItem('readNotifications') || '[]');
+            unreadNotifications = notifications.filter(n => !readNotifications.includes(n.id)).length;
+            
+            const badge = document.getElementById('notificationBadge');
+            if (unreadNotifications > 0) {
+                badge.textContent = unreadNotifications > 99 ? '99+' : unreadNotifications;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function showUserNotifications() {
+            document.getElementById('userNotificationsModal').classList.remove('hidden');
+            displayUserNotifications();
+            markAllAsRead();
+        }
+
+        function closeUserNotifications() {
+            document.getElementById('userNotificationsModal').classList.add('hidden');
+        }
+
+        function displayUserNotifications() {
+            const notificationsList = document.getElementById('userNotificationsList');
+            
+            if (notifications.length === 0) {
+                notificationsList.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <div class="w-16 h-16 glass rounded-3xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-bell-slash text-2xl"></i>
+                        </div>
+                        <p class="text-lg">No notifications yet</p>
+                        <p class="text-sm">You'll be notified about new accounts and updates</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Display notifications when they exist
+            const readNotifications = JSON.parse(localStorage.getItem('readNotifications') || '[]');
+            notificationsList.innerHTML = notifications.map((notification, index) => {
+                const isRead = readNotifications.includes(notification.id);
+                const typeIcons = {
+                    info: '📢',
+                    new_account: '🆕',
+                    price_drop: '💰',
+                    promotion: '🎉',
+                    maintenance: '⚠️',
+                    update: '🔄'
+                };
+                
+                return `
+                    <div class="glass p-4 rounded-2xl ${isRead ? 'opacity-60' : ''} hover-lift card-enter cursor-pointer" 
+                         style="animation-delay: ${index * 0.05}s"
+                         onclick="markNotificationAsRead('${notification.id}')">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center mb-2">
+                                    <span class="text-2xl mr-3">${typeIcons[notification.type] || '📢'}</span>
+                                    <h4 class="font-bold ${isRead ? 'text-gray-300' : 'text-white text-glow'}">${notification.title}</h4>
+                                    ${!isRead ? '<span class="ml-2 w-3 h-3 bg-blue-400 rounded-full animate-pulse"></span>' : ''}
+                                </div>
+                                <p class="text-gray-300 text-sm mb-3 leading-relaxed">${notification.message}</p>
+                                <div class="flex items-center justify-between text-xs">
+                                    <span class="text-gray-400">${new Date(notification.timestamp).toLocaleString()}</span>
+                                    <span class="px-2 py-1 ${notification.priority === 'urgent' ? 'bg-red-600' : notification.priority === 'high' ? 'bg-yellow-600' : 'bg-gray-600'} rounded-full font-bold">
+                                        ${notification.priority.toUpperCase()}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function markNotificationAsRead(notificationId) {
+            const readNotifications = JSON.parse(localStorage.getItem('readNotifications') || '[]');
+            if (!readNotifications.includes(notificationId)) {
+                readNotifications.push(notificationId);
+                localStorage.setItem('readNotifications', JSON.stringify(readNotifications));
+                updateNotificationBadge();
+                displayUserNotifications();
+            }
+        }
+
+        function markAllAsRead() {
+            const allNotificationIds = notifications.map(n => n.id);
+            localStorage.setItem('readNotifications', JSON.stringify(allNotificationIds));
+            updateNotificationBadge();
+            displayUserNotifications();
+        }
+
+        // Contact Information Management
+        function updateContactInfoDisplay() {
+            const telegramDisplay = document.getElementById('telegramDisplay');
+            const discordDisplay = document.getElementById('discordDisplay');
+            const emailDisplay = document.getElementById('emailDisplay');
+            const businessHoursDisplay = document.getElementById('businessHoursDisplay');
+            
+            if (telegramDisplay) telegramDisplay.textContent = contactInfo.telegram;
+            if (discordDisplay) discordDisplay.textContent = contactInfo.discord;
+            if (emailDisplay) emailDisplay.textContent = contactInfo.email;
+            if (businessHoursDisplay) {
+                businessHoursDisplay.innerHTML = `
+                    <p>Mon-Fri: ${contactInfo.weekdayHours}</p>
+                    <p>Sat-Sun: ${contactInfo.weekendHours}</p>
+                `;
+            }
+            
+            const contactTelegram = document.getElementById('contactTelegram');
+            const contactDiscord = document.getElementById('contactDiscord');
+            const contactEmail = document.getElementById('contactEmail');
+            const contactWeekdayHours = document.getElementById('contactWeekdayHours');
+            const contactWeekendHours = document.getElementById('contactWeekendHours');
+            
+            if (contactTelegram) contactTelegram.textContent = contactInfo.telegram;
+            if (contactDiscord) contactDiscord.textContent = contactInfo.discord;
+            if (contactEmail) contactEmail.textContent = contactInfo.email;
+            if (contactWeekdayHours) contactWeekdayHours.textContent = contactInfo.weekdayHours;
+            if (contactWeekendHours) contactWeekendHours.textContent = contactInfo.weekendHours;
+        }
+
+        function showEditContactModal() {
+            document.getElementById('editContactModal').classList.remove('hidden');
+            
+            document.getElementById('editTelegram').value = contactInfo.telegram;
+            document.getElementById('editDiscord').value = contactInfo.discord;
+            document.getElementById('editEmail').value = contactInfo.email;
+            document.getElementById('editWeekdayHours').value = contactInfo.weekdayHours;
+            document.getElementById('editWeekendHours').value = contactInfo.weekendHours;
+        }
+
+        function closeEditContactModal() {
+            document.getElementById('editContactModal').classList.add('hidden');
+        }
+
+        async function saveContactInfo(contactData) {
+            try {
+                await contactInfoRef.update(contactData);
+                showNotification('Contact information updated successfully!', 'success');
+                closeEditContactModal();
+            } catch (error) {
+                showNotification('Error updating contact information!', 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        // Modal functions
+        function showAddAccountForm() {
+            document.getElementById('addAccountModal').classList.remove('hidden');
+            document.getElementById('addAccountForm').reset();
+            clearImagePreview();
+        }
+
+        function closeAddAccountModal() {
+            document.getElementById('addAccountModal').classList.add('hidden');
+            const form = document.getElementById('addAccountForm');
+            form.reset();
+            delete form.dataset.editId;
+            clearImagePreview();
+        }
+
+        function showNotificationPanel() {
+            document.getElementById('notificationPanelModal').classList.remove('hidden');
+            document.getElementById('notificationForm').reset();
+        }
+
+        function closeNotificationPanel() {
+            document.getElementById('notificationPanelModal').classList.add('hidden');
+            const form = document.getElementById('notificationForm');
+            form.reset();
+            delete form.dataset.editId;
+        }
+
+        function closeAccountModal() {
+            document.getElementById('accountModal').classList.add('hidden');
+        }
+
+        // Image upload functions
+        function handleImageUpload(event) {
+            const files = Array.from(event.target.files);
+            if (files.length === 0) return;
+
+            const previewContainer = document.getElementById('imagePreview');
+            previewContainer.innerHTML = '';
+            previewContainer.classList.remove('hidden');
+
+            files.forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewDiv = document.createElement('div');
+                        previewDiv.className = 'relative group';
+                        previewDiv.innerHTML = `
+                            <img src="${e.target.result}" alt="Preview ${index + 1}" 
+                                 class="w-full h-32 object-cover rounded-2xl border border-white/20">
+                            <button type="button" onclick="removeImagePreview(${index})" 
+                                    class="absolute -top-2 -right-2 w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-red-700">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                        previewContainer.appendChild(previewDiv);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function removeImagePreview(index) {
+            const fileInput = document.getElementById('imageUpload');
+            const dt = new DataTransfer();
+            const files = Array.from(fileInput.files);
+            
+            files.forEach((file, i) => {
+                if (i !== index) {
+                    dt.items.add(file);
+                }
+            });
+            
+            fileInput.files = dt.files;
+            handleImageUpload({ target: fileInput });
+        }
+
+        function clearImagePreview() {
+            document.getElementById('imagePreview').classList.add('hidden');
+            document.getElementById('imageUpload').value = '';
+            uploadedImageUrls = [];
+        }
+
+        async function uploadImages(files) {
+            if (!files || files.length === 0) return [];
+
+            const uploadProgress = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('progressBar');
+            uploadProgress.classList.remove('hidden');
+
+            const uploadPromises = [];
+            const imageUrls = [];
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const fileName = `accounts/${Date.now()}_${i}_${file.name}`;
+                const storageRef = storage.ref().child(fileName);
+                
+                const uploadTask = storageRef.put(file);
+                
+                uploadPromises.push(
+                    new Promise((resolve, reject) => {
+                        uploadTask.on('state_changed',
+                            (snapshot) => {
+                                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                progressBar.style.width = `${(progress / files.length) + (i * 100 / files.length)}%`;
+                            },
+                            (error) => {
+                                console.error('Upload error:', error);
+                                reject(error);
+                            },
+                            async () => {
+                                try {
+                                    const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+                                    imageUrls.push(downloadURL);
+                                    resolve(downloadURL);
+                                } catch (error) {
+                                    reject(error);
+                                }
+                            }
+                        );
+                    })
+                );
+            }
+
+            try {
+                await Promise.all(uploadPromises);
+                uploadProgress.classList.add('hidden');
+                progressBar.style.width = '0%';
+                return imageUrls;
+            } catch (error) {
+                uploadProgress.classList.add('hidden');
+                progressBar.style.width = '0%';
+                throw error;
+            }
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const rankFilter = document.getElementById('rankFilter').value;
+            const priceFilter = parseFloat(document.getElementById('priceFilter').value) || Infinity;
+
+            const filtered = accounts.filter(account => {
+                const matchesSearch = account.name.toLowerCase().includes(searchTerm) || 
+                                    account.description.toLowerCase().includes(searchTerm);
+                const matchesRank = !rankFilter || account.rank === rankFilter;
+                const matchesPrice = account.price <= priceFilter;
+                
+                return matchesSearch && matchesRank && matchesPrice;
+            });
+
+            displayAccounts(filtered);
+            showNotification(`Found ${filtered.length} accounts matching your criteria`, 'info');
+        }
+
+        // Sound toggle function
+        function toggleSound() {
+            const isEnabled = soundManager.toggle();
+            const soundIcon = document.getElementById('soundIcon');
+            const soundButton = document.getElementById('soundToggle');
+            
+            if (isEnabled) {
+                soundIcon.className = 'fas fa-volume-up text-lg md:text-xl group-hover:scale-110 transition-transform';
+                soundButton.title = 'Toggle Sound Effects (ON)';
+                showNotification('Sound effects enabled! 🔊', 'success');
+            } else {
+                soundIcon.className = 'fas fa-volume-mute text-lg md:text-xl group-hover:scale-110 transition-transform';
+                soundButton.title = 'Toggle Sound Effects (OFF)';
+                showNotification('Sound effects disabled! 🔇', 'info');
+            }
+            
+            localStorage.setItem('soundEnabled', isEnabled);
+        }
+
+        // Enhanced notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-6 right-6 z-50 px-6 py-4 rounded-2xl text-white font-medium transform transition-all duration-500 translate-x-full glass notification-enter max-w-sm`;
+            
+            let icon = '';
+            if (type === 'success') {
+                notification.classList.add('border-green-500/50');
+                icon = '<i class="fas fa-check-circle mr-2 text-green-400"></i>';
+            } else if (type === 'error') {
+                notification.classList.add('border-red-500/50');
+                icon = '<i class="fas fa-exclamation-circle mr-2 text-red-400"></i>';
+            } else {
+                notification.classList.add('border-blue-500/50');
+                icon = '<i class="fas fa-info-circle mr-2 text-blue-400"></i>';
+            }
+            
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    ${icon}
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    if (document.body.contains(notification)) {
+                        document.body.removeChild(notification);
+                    }
+                }, 500);
+            }, 4000);
+        }
+
+        // Add shake animation for errors
+        const shakeKeyframes = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        const style = document.createElement('style');
+        style.textContent = shakeKeyframes;
+        document.head.appendChild(style);
+
+        // Add sound effects to buttons
+        function addSoundEffects() {
+            document.addEventListener('click', function(e) {
+                const button = e.target.closest('button');
+                if (!button) return;
+
+                if (button.textContent.includes('Delete') || button.textContent.includes('Remove') || button.textContent.includes('Clear')) {
+                    soundManager.play('delete');
+                } else if (button.textContent.includes('Admin') || button.textContent.includes('Login')) {
+                    soundManager.play('admin');
+                } else if (button.textContent.includes('Upload') || button.textContent.includes('Add') || button.textContent.includes('Save')) {
+                    soundManager.play('upload');
+                } else if (button.textContent.includes('Send') || button.textContent.includes('Notification')) {
+                    soundManager.play('notification');
+                } else {
+                    soundManager.play('click');
+                }
+            });
+
+            document.addEventListener('mouseover', function(e) {
+                const interactive = e.target.closest('button, .hover-lift, .nav-btn');
+                if (interactive && !e.target.dataset.hovered) {
+                    e.target.dataset.hovered = 'true';
+                    soundManager.play('hover');
+                    
+                    setTimeout(() => {
+                        delete e.target.dataset.hovered;
+                    }, 200);
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupRealtimeListeners();
+            initializeFreshDatabase();
+            addSoundEffects();
+            checkUserSession(); // Check if user is already logged in
+            
+            // Load sound preference
+            const savedSoundState = localStorage.getItem('soundEnabled');
+            if (savedSoundState !== null) {
+                const isEnabled = savedSoundState === 'true';
+                if (!isEnabled) {
+                    soundManager.toggle();
+                    const soundIcon = document.getElementById('soundIcon');
+                    const soundButton = document.getElementById('soundToggle');
+                    soundIcon.className = 'fas fa-volume-mute text-lg md:text-xl group-hover:scale-110 transition-transform';
+                    soundButton.title = 'Toggle Sound Effects (OFF)';
+                }
+            }
+            
+            // Add search functionality
+            document.getElementById('searchInput').addEventListener('input', applyFilters);
+            document.getElementById('rankFilter').addEventListener('change', applyFilters);
+            document.getElementById('priceFilter').addEventListener('input', applyFilters);
+            
+            // Add image upload functionality
+            document.getElementById('imageUpload').addEventListener('change', handleImageUpload);
+            
+            // Add authentication form handlers
+            document.getElementById('loginFormElement').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                
+                try {
+                    await loginUser(formData.get('email'), formData.get('password'));
+                } catch (error) {
+                    soundManager.play('error');
+                    let errorMessage = 'Login failed!';
+                    if (error.message === 'Email not found') {
+                        errorMessage = 'Email not registered. Please create an account.';
+                    } else if (error.message === 'Invalid password') {
+                        errorMessage = 'Incorrect password. Please try again.';
+                    }
+                    showNotification(`❌ ${errorMessage}`, 'error');
+                }
+            });
+
+            document.getElementById('registerFormElement').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const password = formData.get('password');
+                
+                if (!validatePassword(password)) {
+                    soundManager.play('error');
+                    showNotification('❌ Password does not meet requirements!', 'error');
+                    return;
+                }
+                
+                try {
+                    await registerUser({
+                        name: formData.get('name'),
+                        email: formData.get('email'),
+                        phone: formData.get('phone'),
+                        password: password
+                    });
+                } catch (error) {
+                    soundManager.play('error');
+                    let errorMessage = 'Registration failed!';
+                    if (error.message === 'Email already registered') {
+                        errorMessage = 'Email already registered. Please login instead.';
+                    }
+                    showNotification(`❌ ${errorMessage}`, 'error');
+                }
+            });
+
+            // Add password validation for register form
+            document.querySelector('#registerForm input[name="password"]').addEventListener('input', function(e) {
+                validatePassword(e.target.value);
+            });
+
+            // Add user profile form handler
+            document.getElementById('userProfileForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                
+                try {
+                    await updateUserProfile({
+                        name: formData.get('name'),
+                        phone: formData.get('phone')
+                    });
+                } catch (error) {
+                    console.error('Profile update error:', error);
+                }
+            });
+            
+            // Add form handlers
+            document.getElementById('notificationForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                
+                const notificationData = {
+                    type: formData.get('type'),
+                    title: formData.get('title'),
+                    message: formData.get('message'),
+                    priority: formData.get('priority'),
+                    timestamp: Date.now()
+                };
+                
+                try {
+                    await notificationsRef.push(notificationData);
+                    soundManager.play('notification');
+                    showNotification('Notification sent successfully!', 'success');
+                    closeNotificationPanel();
+                } catch (error) {
+                    showNotification('Error sending notification!', 'error');
+                    console.error('Error:', error);
+                }
+            });
+
+            document.getElementById('editContactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(e.target);
+                const contactData = {
+                    telegram: formData.get('telegram'),
+                    discord: formData.get('discord'),
+                    email: formData.get('email'),
+                    weekdayHours: formData.get('weekdayHours'),
+                    weekendHours: formData.get('weekendHours')
+                };
+                saveContactInfo(contactData);
+            });
+
+            document.getElementById('addAccountForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                try {
+                    const formData = new FormData(e.target);
+                    const imageFiles = document.getElementById('imageUpload').files;
+                    
+                    const contacts = {};
+                    if (formData.get('facebook')) contacts.facebook = formData.get('facebook');
+                    if (formData.get('messenger')) contacts.messenger = formData.get('messenger');
+                    if (formData.get('telegram')) contacts.telegram = formData.get('telegram');
+                    if (formData.get('tiktok')) contacts.tiktok = formData.get('tiktok');
+                    
+                    let accountData = {
+                        name: formData.get('name'),
+                        rank: formData.get('rank'),
+                        price: parseFloat(formData.get('price')),
+                        heroes: parseInt(formData.get('heroes')),
+                        skins: parseInt(formData.get('skins')),
+                        sellerName: formData.get('sellerName'),
+                        description: formData.get('description'),
+                        contacts: Object.keys(contacts).length > 0 ? contacts : null,
+                        status: 'available',
+                        views: 0,
+                        createdAt: Date.now()
+                    };
+                    
+                    if (imageFiles.length > 0) {
+                        accountData.images = await uploadImages(imageFiles);
+                    } else {
+                        accountData.images = ["https://via.placeholder.com/400x300/667eea/ffffff?text=New+Account"];
+                    }
+                    
+                    await accountsRef.push(accountData);
+                    soundManager.play('upload');
+                    showNotification('Account added successfully!', 'success');
+                    closeAddAccountModal();
+                } catch (error) {
+                    showNotification('Error saving account!', 'error');
+                    console.error('Error:', error);
+                }
+            });
+
+            // Set default section
+            showSection('home');
+        });
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('backdrop-blur-sm')) {
+                closeAccountModal();
+                closeAddAccountModal();
+                closeUserNotifications();
+                closeNotificationPanel();
+                closeEditContactModal();
+                closeAuthModal();
+                closeUserProfile();
+                closeUserOrders();
+            }
+            
+            // Close user menu when clicking outside
+            if (!e.target.closest('#userProfile')) {
+                hideUserMenu();
+            }
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeAccountModal();
+                closeAddAccountModal();
+                closeUserNotifications();
+                closeNotificationPanel();
+                closeEditContactModal();
+                closeAuthModal();
+                closeUserProfile();
+                closeUserOrders();
+                hideUserMenu();
+            }
+        });
+
+        // Placeholder functions for missing functionality
+        function showAccountDetails(accountId) {
+            showNotification('Account details will be available once accounts are added!', 'info');
+        }
+
+        function editAccount(accountId) {
+            showNotification('Edit functionality ready!', 'info');
+        }
+
+        function toggleAccountStatus(accountId) {
+            showNotification('Status toggle ready!', 'info');
+        }
+
+        function deleteAccount(accountId) {
+            showNotification('Delete functionality ready!', 'info');
+        }
+
+        function removeAllAccounts() {
+            showNotification('Clear all functionality ready!', 'info');
+        }
+
+        function editNotification(notificationId) {
+            showNotification('Edit notification ready!', 'info');
+        }
+
+        function deleteNotification(notificationId) {
+            showNotification('Delete notification ready!', 'info');
+        }
+
+        function clearAllNotifications() {
+            showNotification('Clear all notifications ready!', 'info');
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97c951ea02f5a1c3',t:'MTc1NzQ0ODUzMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
